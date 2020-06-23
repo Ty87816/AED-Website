@@ -5,7 +5,21 @@
 	
 	
 }
-.tile {
+.board{
+	background-color: gray;
+	display: flex;
+	padding-right: 30px;
+	padding-left: 30px;	
+	
+}
+//////////////////////
+//////////////////////
+.row {
+	 display:inline-block;
+	
+	
+}
+.whiteTile {
   display:flex;
   justify-content:center;
   align-items:center;
@@ -13,10 +27,21 @@
   height: 70px;
   padding: 108px;
   border: 1px solid #4287f5;
+  background-color: white;
+}
+.blackTile {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width: 350px;
+  height: 70px;
+  padding: 108px;
+  border: 1px solid #4287f5;
+  background-color: black;
 }
 
 .piece {
-  width: 349px;
-  height: 69px;
+  width: 249px;
+  height: 202px;
   position: relative;
 }

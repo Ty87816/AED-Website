@@ -1,0 +1,12 @@
+1.Create Board  //fix colors, possibly create rows?  //fix drag (creates copies)
+2.Objects?
+3.Validate Moves
+4.Win conditions
+5.Kings
+6.Refresh Board 
+
+
+
+Ideas
+1.Getting to the other side earns points
+2.turns into peasant, jumps inbetween pieces
