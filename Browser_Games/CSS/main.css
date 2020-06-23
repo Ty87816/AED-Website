@@ -1,0 +1,22 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	
+	
+}
+.tile {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width: 350px;
+  height: 70px;
+  padding: 108px;
+  border: 1px solid #4287f5;
+}
+
+.piece {
+  width: 349px;
+  height: 69px;
+  position: relative;
+}
