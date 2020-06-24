@@ -12,4 +12,9 @@ Ideas
 2.turns into peasant, jumps in between pieces
 
 Problems
-Copies comes from the one piece being used in the drag function. It happens when they cross their grouping.
+1.Copies comes from the one piece being used in the drag function. It happens when they cross their grouping. (Resolved)
+2.Can drag piece into tile where there is already a tile, this destroys the piece, must prevent pieces from being placed directly on top of other pieces
+
+
+Resolved:
+1.Copies Resolved, each piece requires its own unique ID, otherwise each piece is the "same", creating the copy issue/random dissappearance
