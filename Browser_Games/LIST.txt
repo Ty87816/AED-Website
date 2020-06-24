@@ -9,4 +9,9 @@
 
 Ideas
 1.Getting to the other side earns points
-2.turns into peasant, jumps inbetween pieces
+2.turns into peasant, jumps in between pieces
+
+
+Update 0.1
+Copies comes from the one piece being used in the drag function. It happens when they cross their grouping.
+Fixed the board layout and pieces are nicer, with transparent backgrounds.

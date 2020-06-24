@@ -23,8 +23,8 @@
   display:flex;
   justify-content:center;
   align-items:center;
-  width: 350px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
   padding: 108px;
   border: 1px solid #4287f5;
   background-color: white;
@@ -33,15 +33,15 @@
   display:flex;
   justify-content:center;
   align-items:center;
-  width: 350px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
   padding: 108px;
   border: 1px solid #4287f5;
   background-color: black;
 }
 
 .piece {
-  width: 249px;
-  height: 202px;
+  width: 128px;
+  height: 128px;
   position: relative;
 }
