@@ -1,31 +1,29 @@
 from flask import Flask
 import json
-from ..handlers.routes import configure_routes
+from ..app import app
 
 
   
 def test_home():
-    app = Flask(__name__)
-    configure_routes(app)
+    
     client = app.test_client()
     url = '/'
 
     response = client.get(url)
-    assert response.status_code == 500
+    
+    assert response.status_code == 200
     
  
-def test_blog():
-    app = Flask(__name__)
-    configure_routes(app)
-    client = app.test_client()
-    url = '/blog'
-    response = client.get(url)
-    assert response.get_data() == b'blog'
+def test_login():
     
-def test_blog_content():
-    app = Flask(__name__)
-    configure_routes(app)
     client = app.test_client()
-    url = '/blog'
+    url = '/login'
+    response = client.get(url)
+    assert response.status_code == 200
+    
+def test_register():
+    
+    client = app.test_client()
+    url = '/register'
     response = client.get(url)
     assert response.get_data() != b'blug'
