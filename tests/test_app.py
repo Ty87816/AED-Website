@@ -13,3 +13,17 @@ def test_home():
     
     assert response.status_code == 200
     
+ 
+def test_login():
+    
+    client = app.test_client()
+    url = '/login'
+    response = client.get(url)
+    assert response.status_code == 200
+    
+def test_register():
+    
+    client = app.test_client()
+    url = '/register'
+    response = client.get(url)
+    assert response.get_data() != b'blug'
