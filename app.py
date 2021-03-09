@@ -15,7 +15,7 @@ def hello_world():
 def login():
     reg_form = RegistrationForm()
     log_form = LoginForm()
-    if reg_form.validate_on_submit()
+    if reg_form.validate_on_submit():
         flash('f'Succes for {form.username.data}!','success')
     return render_template('login.html', form=reg_form)
     
