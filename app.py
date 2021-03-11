@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request, render_template, url_for, flash, redirect
 import json
+import forms
 from forms import LoginForm, RegistrationForm
 
 app = Flask(__name__)
