@@ -45,6 +45,39 @@
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+
+       eventClick: function(info) {
+
+        var remove = prompt('Delete Event? (yes/no)');
+        var ans = (remove);
+
+        if (ans == "yes") {
+
+          info.event.remove();
+
+        }
+
+        else {
+
+          var edit = prompt('Edit Event? (yes/no)');
+          var ans2 = (edit);
+
+          if (ans2 == "yes") {
+
+            var title = prompt('New Event:', event.title);
+
+            if (title){
+                event.title = title;
+                calendar.fullCalendar('updateEvent',event);
+            }
+            
+          }
+
+
+        }
+
+      },
+
       plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
       header: {
         center: 'addEventButton'
@@ -69,7 +102,6 @@
         }
 
       }
-   
 
     });
 
