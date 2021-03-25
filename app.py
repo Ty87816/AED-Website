@@ -26,6 +26,10 @@ def events():
 @app.route('/comments')
 def comments():
     return render_template('CommentWall.html')
+
+@app.route('/calendar')    
+def calendar():
+    return render_template('calendar.html')
     
 if __name__ == '__main__':
     app.run()
