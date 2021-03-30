@@ -1,7 +1,7 @@
 from flask import request, render_template, url_for, flash, redirect
 from app import app, db
 from app.models import User
-from app.forms import LoginForm, RegistrationForm, AttendanceForm
+from app.forms import LoginForm, RegistrationForm
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 
@@ -48,12 +48,7 @@ def logout():
     
 @app.route('/events', methods=['GET', 'POST'])
 def events():
-    form = AttendanceForm()
-    if form.validate_on_submit():
-        flash(f'Document Uploaded for {form.f_name.data}!', 'success')
-        filename = secure_filename(form.doc.data.filename)
-        form.doc.data.save('uploads/' + filename)
-    return render_template('Events.html',form=form)
+    return render_template('Events.html')
 
 @app.route('/comments')
 def comments():
