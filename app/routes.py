@@ -1,8 +1,10 @@
 from flask import request, render_template, url_for, flash, redirect
 from app import app, db
 from app.models import User
-from app.forms import LoginForm, RegistrationForm
-from flask_login import login_user
+from app.forms import LoginForm, RegistrationForm, AttendanceForm
+from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.utils import secure_filename
+
 
 @app.route('/')
 @app.route('/home')
@@ -26,22 +28,32 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def registration():
-    reg_form = RegistrationForm()
+    form = RegistrationForm()
     
-    if reg_form.validate_on_submit():
-        flash(f'Account created for {reg_form.username.data}!', 'success')
-        user = User(username=reg_form.username.data, email=reg_form.email.data, password=reg_form.password.data)
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
         
         return redirect(url_for('login'))
     
     
-    return render_template('registration.html', form=reg_form)
+    return render_template('registration.html', form=form)
 
-@app.route('/events')
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+    
+@app.route('/events', methods=['GET', 'POST'])
 def events():
-    return render_template('Events.html')
+    form = AttendanceForm()
+    if form.validate_on_submit():
+        flash(f'Document Uploaded for {form.f_name.data}!', 'success')
+        filename = secure_filename(form.doc.data.filename)
+        form.doc.data.save('uploads/' + filename)
+    return render_template('Events.html',form=form)
 
 @app.route('/comments')
 def comments():
