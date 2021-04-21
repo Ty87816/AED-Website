@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<form class="form-inline" method="post">
+  <label for="exampleInputName2">Member Name</label>
+  <div class="form-group pt-2 pb-2">
+    <label for="exampleInputName2">First Name</label>
+    <input type="text" name="f_name" class="form-control" id="exampleInputName2">
+  </div>
+  <div class="form-group pt-2 pb-2">
+    <label for="exampleInputName2">Last Name</label>
+    <input type="text" name="l_name" class="form-control" id="exampleInputName2">
+  </div>
+  <div class="form-group pt-2 pb-2">
+	<select class="w-25 pt-2 pb-2" name="events" id="events" onfocus="this.selectedIndex = -1;">
+		 <option selected="selected"></option>
+		{% for event in events %}
+			<option value="{{ event.event}}">{{event.event}}</option>
+		{% endfor %}
+	</select>
+  </div>
+    <input type="submit" name="submit" value="Search">
+</form>
+<div class="pt-5 pb-5"></div>
+{% for submission in submissions %}
+ 
+<div class="card">
+  <div class="card-header">
+    {{submission.event}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{submission.f_name + " " + submission.l_name}}</h5>
+	<form class="form-inline" method="post">
+		<input type="text" name="url" value='{{submission.file_url}}' style="Display:None">
+		<input type="submit" name="submit" value="Download File">
+	</form>
+  </div>
+</div>
+<div class="pt-2 pb-2"></div>
+{% endfor  %}
+{% endblock %}

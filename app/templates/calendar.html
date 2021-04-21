@@ -1,122 +1,92 @@
+
 {% extends 'base.html' %}
+
+
 {% block content %}
-<html>
 <head>
-<meta charset='utf-8' />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css' rel='stylesheet' />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css' rel='stylesheet' />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/timegrid/main.min.css' rel='stylesheet' />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/list/main.min.css' rel='stylesheet' />
-<style>
-    html, body {
-    font-size: 14px;
-    background: #e2e2e2;
-  background: #e2e2e2;
-  }
-  #calendar{
-    width: 80%;
-    margin-left: 100px;
-    width: 75%;
-    margin-left: 200px;
-    box-shadow: 0px 0px 10px #000;
-    padding:15px; 
-    padding:15px;
-    background: #fff;
-  }
-  #calendar-container {
-    position: fixed;
-    top: 0%;
-    top: 15%;
-    text-align: center;
-    left: 10%;
-    right: 10%;
-    left: 30%;
-    right: 5%;
-    bottom: 20%;
-  }
-</style>
-</head>
-<body>
-  <div id='calendar-container'>
-  <h1></h1>
-    <div id='calendar'></div>
-  </div>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/interaction/main.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/timegrid/main.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/list/main.min.js'></script>
-<script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-
-       eventClick: function(info) {
-
-        var remove = prompt('Delete Event? (yes/no)');
-        var ans = (remove);
-
-        if (ans == "yes") {
-
-          info.event.remove();
-
-        }
-
-        else {
-
-          var edit = prompt('Edit Event? (yes/no)');
-          var ans2 = (edit);
-
-          if (ans2 == "yes") {
-
-            var title = prompt('New Event:', event.title);
-
-            if (title){
-                event.title = title;
-                calendar.fullCalendar('updateEvent',event);
-            }
-            
-          }
-
-
-        }
-
-      },
-
-      plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-      header: {
-        center: 'addEventButton'
-      },
-      customButtons: {
-        addEventButton: {
-          text: 'Add Event',
-          click: function() {
-            var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-            var date = new Date(dateStr + 'T00:00:00');
-            var eventStr = prompt('Enter Event:');
-            var eventItem = (eventStr);
-
-            calendar.addEvent({
-                title: eventStr,
-                start: date,
-                allDay: true
-              });
-
-          }
-
-        }
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+  <script>
+  $(document).ready(function() {
+   var calendar = $('#calendar').fullCalendar({
+    editable:true,
+    header:{
+     left:'prev,next today',
+     center:'title',
+     right:'month,agendaWeek,agendaDay'
+    },
+    events: [{% for row in calendar %}{ id : '{{row.id}}', title : '{{row.title}}', start : '{{row.start}}', end : '{{row.end}}', }, {% endfor %}],
+    selectable:true,
+    selectHelper:true,
+    select: function(start, end, allDay)
+    {
+     var title = prompt("Enter Event Title");
+	 
+     if(title)
+     {
+		var description = prompt("Describe the event");
+		if(description){
+			var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+			var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+			$.ajax({
+				url:"/addEvent",
+				type:"POST",
+				data:{title:title, start:start, end:end, description:description},
+			})
+		}
+     }
+    },
+    editable:true,
+    eventResize:function(event)
+    {
+     var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+     var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+     var title = event.title;
+     var id = event.id;
+     $.ajax({
+      url:"/updateEvent",
+      type:"POST",
+      data:{title:title, start:start, end:end, id:id},
+      success:function(){
+       calendar.fullCalendar('refetchEvents');
       }
+     })
+    },
 
-    });
+    eventClick:function(event)
+    {
+     if(confirm("Are you sure you want to remove it?"))
+     {
+      var id = event.id;
+      $.ajax({
+       url:"/deleteEvent",
+       type:"POST",
+       data:{id:id},
+       success:function()
+       {
+        calendar.fullCalendar('refetchEvents');
 
-    calendar.render();
-
+       }
+      })
+     }
+    },
+ 
+   });
   });
-
-</script>
-</body>
+    
+ </script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+ </head>
+ <body>
+  
+  <div class="container">
+   <div id="calendar"></div>
+  </div>
+  
+ </body>
 </html>
-{% endblock %}
+ {% endblock %}

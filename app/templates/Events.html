@@ -2,8 +2,53 @@
 
 
 {% block content %}
-<div class="container">
+<style>
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  
+}
 
+.article-title {
+  text-decoration: none;
+}
+
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-metadata {
+text-decoration: none;
+
+
+
+}
+
+</style>
+<div class="container">
     <h1>Events</h1>
-</div> 
+	{% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <h2>{{ post.event }}</h2>
+              <small class="text-muted">{{ post.start }}</small>
+			  <small class="text-muted">{{ post.end }}</small>
+            </div>
+            <p class="article-content">{{ post.description }}</p>
+          </div>
+		  <form method="post">
+			<label for="exampleInputName2">Submit attendance for</label>
+			<input type="submit" name="submit_button" value='{{post.event }}'>
+		  </form>
+        </article>
+    {% endfor %}
+</div>
+
+
+
 {% endblock %}
