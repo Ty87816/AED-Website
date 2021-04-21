@@ -1,46 +1,79 @@
 {% extends 'base.html' %}
 {% block content %}
+
+
+<style>
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  
+}
+
+.article-title {
+  text-decoration: none;
+}
+
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-metadata {
+text-decoration: none;
+
+
+
+}
+
+.wrap {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.wrap div:last-child {
+  margin-left: auto;
+}
+
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="container row-fluid">
+	<form id="submission" method="post">
+		<input type="text" name="message" placeholder="Max 120 Characters" maxlength = "120"/>
+		<input type="submit" name='submit' value="Comment" />
+	</form>		
+</div>
+
 <div class="container">
     <h1>Comment Wall</h1>
-<head>
-		<script src=" https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" language="javascript" ></script>
-		<script src="js/appParse.js" type="text/javascript" language="javascript" ></script>
-		<link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-		<link href="css/style.css" type="text/css" rel="stylesheet" />
+	{% for comment in comments %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata wrap">
+              <h2>{{ comment.username }}</h2>
+			  {% if comment.username == current_user.username or current_user.is_admin%}
+			      <form id="deletion" method="post">
+					  <input type="text" name="id" value='{{comment.id}}' style="Display:None">
+				      <button type="submit" name='submit' value="Delete Comment" ><i class="fa fa-trash"></i></button>
+			      </form>
+			  {% endif %}
+            </div>
+			 <small class="text-muted">{{ comment.timestamp.strftime('%Y/%m/%d %I:%M') }}</small>
+            <p class="article-content">{{ comment.message }}</p>
+          </div>
+		  
+        </article>
+    {% endfor %}
+</div>
 
-</div> 
-	</head>
-	<body>
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<h1>Comment Wall</h1>
-				<table class="table table-bordered table-striped">
-					<caption>Comments</caption>
-					<thead>
-						<tr>
-							<th>
-								Name
-							</th>
-							<th>
-								Comment
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="2">No comments</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="row-fluid">
-				<form id="new-user">
-					<input type="text" name="username" placeholder="Username" />
-					<input type="text" name="message" placeholder="Message" />
-					<a id="send" class="btn btn-primary">SEND</a>
-				</form>		
-			</div>
-		</div>
-	</body>
-	<!---Source of message board: "https://github.com/azat-co/simple-message-board/blob/master/index.html"--->
+
 {% endblock %}
+
+
+
+
