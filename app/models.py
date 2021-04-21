@@ -11,5 +11,24 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60),nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
     
+class Attendance(db.Model):
+    event = db.Column(db.String(20), primary_key=True)
+    f_name = db.Column(db.String(20), primary_key=True)
+    l_name = db.Column(db.String(20), primary_key=True)
+    timestamp = db.Column(db.Time(), nullable=False)
+    file_url = db.Column(db.String(50), nullable=False)
     
+class Events(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    event = db.Column(db.String(20))
+    start = db.Column(db.DateTime, nullable=False)
+    end = db.Column(db.DateTime, nullable=False)
+    description = db.Column(db.String(120))
+    
+class Comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20))
+    timestamp = db.Column(db.DateTime(), nullable=False)
+    message = db.Column(db.String(120))
