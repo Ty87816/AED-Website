@@ -11,7 +11,7 @@ SQLite was the database used to store all applicable information from website
 3.) Run the command 'pip install -r requirements.txt', it is recommend that you do this inside of a virtual enviroment 
     (See * https://docs.python.org/3/tutorial/venv.html) Additionally note, the commands needed to create a virtual enviroment 
     will vary from operating system to operating system.
-4.) Run the command 'flask run', then navigate to localhost (copy 'https://localhost:800' into your browser)
+4.) Run the command 'flask run', then navigate to localhost (copy 'https://localhost:8000' into your browser)
 
 
     Testing Information
